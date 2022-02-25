@@ -11,7 +11,7 @@
                 <p style="font-size: 75%">먹고 싶은 메뉴를 골라주세요!!</p>
 
             </div>
-             <div class="Buttons" v-for="(a,i) in FoodType" :key="i">               
+             <div class="FoodButtons" v-for="(a,i) in FoodType" :key="i">               
                 <button v-bind:class="{UnSelectedBtn: !IsSelected[i], SelectedBtn: IsSelected[i] }" 
                 v-on:mouseup="ChangeBtn(i)">{{a}}</button>                
             </div>                
@@ -126,7 +126,7 @@ export default {
     width: 100%;
     
 }
-.Buttons{
+.FoodButtons{
     width: 100%;
     display: inline-flex;
     -webkit-box-pack: center;
