@@ -27,26 +27,27 @@
 </template>
 
 <script>
-import Vue from'vue'
+// import Vue from'vue';
+import EventBus from '../EventBus.js';
 
 export default {
+    created(){
+                EventBus.$on('FoodResult',function(json){
+                this.data = json;
+                this.StoreLocation = json.username;
+                this.MakeScreen(json);
+                }.bind(this));
+    },
+
     methods:{
-        ResultData: function(){
-            var eventBus = new Vue();
-            eventBus.$on('FoodResult',function(data){
-                console.log(data);
-                this.FoodName = data.storeId;
-                this.StoreLocation = data.location; 
-                this.StoreUrl = data.storeUrl;
-                this.FoodImage = data.imageUrl;
-                this.FoodPrice = data.price;
-                this.ContactNum = data.contactNum;
-                this.StoreName = data.storeName;
-            })
+        MakeScreen: function(data) {
+            this.FoodName = data.username;
         }
     },
+        
     data: function(){
         return{
+            data : [],
             FoodName : '',
             StoreLocation : '',
             StoreUrl : '',
@@ -57,6 +58,7 @@ export default {
         }
     }
 }
+
 </script>
 
 <style>

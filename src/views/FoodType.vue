@@ -1,4 +1,4 @@
-<template>
+// <template>
     <div>
        <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,7 +31,8 @@
 <script>
 import axios from 'axios'
 import router from "../router";
-import Vue from 'vue'
+// import Vue from 'vue'
+import EventBus from '../EventBus.js';
 
 export default {
     
@@ -48,7 +49,7 @@ export default {
    },
    methods: {
        submitForm: function(){
-           var url = 'https://192.168.45.200:8080/api/random';
+           var url = 'http://localhost:8080/api/random';
            var data = '';
            var condition = true;
 
@@ -75,17 +76,20 @@ export default {
                    break;
                }
            }
-          var eventBus = new Vue();
-           axios.post(url,JSON.stringify(data),
-           { headers: { 'Content-Type': 'application/json'}})
-            .then(function(response){
-                console.log(response);
-                eventBus.$emit('FoodResult',response);
-                router.push('/ResultTap');
-            })
-            .catch(function(error){
-                console.log(error);
-            });
+          
+          axios.post(url, JSON.stringify(data),
+          { headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Content-Type': 'application/json; charset = utf-8'
+            }})
+          .then(function(response){
+            console.log(response);
+            EventBus.$emit('FoodResult',response);
+            router.push('/ResultTap');
+          })
+          .catch(function(error){
+            console.log(error);
+          });
 
             },
             ChangeBtn: function(i){   

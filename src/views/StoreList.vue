@@ -4,7 +4,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
         <div>
-          <button v-on:click="GetData()">전체리스트 보기</button>
+          <!-- <button v-on:click="GetData()">전체리스트 보기</button> -->
           <div v-for="(a,i) in FoodName" :key="i">               
             <div class="TopBox">
               <div>
@@ -15,7 +15,7 @@
                 <div>{{StoreLocation[i]}}</div>
                 <div>{{ContactNum[i]}}</div>
                 <div>대표메뉴</div>
-                <div>{{FoodName[i]}}{{price[i]}}원</div>
+                <div>{{FoodName[i]}}{{FoodPrice[i]}}원</div>
               </div>
             </div>
           </div> 
@@ -34,6 +34,10 @@ import axios from'axios'
 
 
 export default {
+  created: function(){
+    this.GetData()
+  },
+  
   data: function(){
     return {
             FoodName : [''],
@@ -42,27 +46,27 @@ export default {
             FoodImage: [''],
             FoodPrice: [0],
             ContactNum: [''],
-            StoreName: ['']
+            StoreName: [''],
+            Datas: []
     }
   },
   methods:{
     GetData: function(){
-      axios.get()
-      .then(function(response){
-                console.log(response);
-                for(var i = 0; i < response.length; i++){
-                  this.FoodName[i] = response.storeId;
-                  this.StoreLocation[i] = response.location; 
-                  this.StoreUrl[i] = response.storeUrl;
-                  this.FoodImage[i] = response.imageUrl;
-                  this.FoodPrice[i] = response.price;
-                  this.ContactNum[i] = response.contactNum;
-                  this.StoreName[i] = response.storeName;
-                }               
-            })
-            .catch(function(error){
-                console.log(error);
-            });
+      axios.get('http://localhost:8080/api/all')
+      .then((res)=> {
+        this.Datas = res.data       
+      })
+      .catch(err => console.error(err))
+
+      var i = 0;
+      for(var key in this.Datas){
+        this.FoodName[i] = this.Datas[key].name;
+        console.log(this.Datas[key].name);
+        i++;
+		}
+    
+      
+      
     }
   }
 }
